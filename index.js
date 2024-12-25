@@ -42,15 +42,15 @@ bot.onText(/\/start(.*)/, (msg, match) => {
             referrals: 0,
             referralLink: `https://t.me/Christmas20252_bot?start=${chatId}` // Unique referral link
         };
-            bot.sendMessage(chatId, 'Welcome! Please choose an option:', {
-        reply_markup: {
-            keyboard: [
-                [{ text: 'Set Wallet' }, { text: 'Withdraw' }]
-            ],
-            resize_keyboard: true,
-            one_time_keyboard: true
-        }
-    });
+        bot.sendMessage(chatId, welcomeMessage, {
+            reply_markup: {
+                keyboard: [
+                    [{ text: 'Set Wallet' }, { text: 'Withdraw' }]
+                ],
+                resize_keyboard: true,
+                one_time_keyboard: true
+            }
+        });
 
         // If there's a referrer, update their balance and referral count
         if (referrerId && users[referrerId]) {
@@ -67,6 +67,7 @@ bot.onText(/\/start(.*)/, (msg, match) => {
             inline_keyboard: [[
                 { text: 'DONE', callback_data: 'done' }
             ]]
+            
         }
     });
 });
@@ -130,6 +131,7 @@ KEEP IT CLEAN 😉
         bot.sendMessage(chatId, refreshMessage);
     }
 });
+
 
 // Handle referral tracking
 bot.onText(/\/referral (.+)/, (msg, match) => {
