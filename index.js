@@ -2,6 +2,11 @@ const TelegramBot = require('node-telegram-bot-api');
 const setupWallet = require('./setwallet');
 const withdraw = require('./withdraw');
 require("dotenv").config()
+const express = require("express");
+
+
+const app = express();
+const PORT = process.env.PORT || 3000;
 
    
 // Replace with your bot token from BotFather
@@ -145,3 +150,13 @@ bot.onText(/\/referral (.+)/, (msg, match) => {
 
 setupWallet(bot, users);
 withdraw(bot, users);
+
+async function startApp() {
+    await Promise.all([
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      }),
+    ]);
+  }
+  
+  startApp().catch((error) => console.error("Error starting app:", error));
