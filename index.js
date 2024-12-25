@@ -15,9 +15,9 @@ const bot = new TelegramBot(token, { polling: true });
 
 // List of channels to follow
 const channels = [
-    '@rider9ja0', // Replace with your channel usernames
-    '(https://t.me/+ckTAleWgNjBjYzBk)',
-    '(https://t.me/+ckTAleWgNjBjYzBk)'
+    '@MAKE_MONEYK', // Replace with your channel usernames
+    '@AIRDROP_FINDERK',
+    '@FREE_UPDATEK'
 ];
 
 // In-memory storage for user data
