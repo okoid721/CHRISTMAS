@@ -74,7 +74,7 @@ bot.on('callback_query', (callbackQuery) => {
         // Send the specified message after the user taps "DONE"
         const user = users[chatId];
         const responseMessage = `
-🇳🇬 NIGERIA BIGGEST GIVEAWAY 🔥
+🇳🇬 CHRISTMAS BIGGEST GIVEAWAY 🔥
 
 🎉 EARN UNLIMITED NGN? JUST BY DOING TASK AND INVITING YOUR FRIENDS OR LOVED ONES.
 
