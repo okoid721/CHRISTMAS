@@ -1,10 +1,11 @@
 const TelegramBot = require('node-telegram-bot-api');
 const setupWallet = require('./setwallet');
 const withdraw = require('./withdraw');
+require("dotenv").config()
 
    
 // Replace with your bot token from BotFather
-const token = '7588136915:AAHHt_8w0kqbD8aO8FpgNpBlRL5rHWu8Da4';
+const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 // List of channels to follow
