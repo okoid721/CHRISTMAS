@@ -1,14 +1,12 @@
 const TelegramBot = require('node-telegram-bot-api');
 const setupWallet = require('./setwallet');
 const withdraw = require('./withdraw');
-require("dotenv").config()
+require("dotenv").config();
 const express = require("express");
-
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-   
 // Replace with your bot token from BotFather
 const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
@@ -40,8 +38,13 @@ bot.onText(/\/start(.*)/, (msg, match) => {
         users[chatId] = {
             balance: 0,
             referrals: 0,
-            referralLink: `https://t.me/Christmas20252_bot?start=${chatId}` // Unique referral link
+            referralLink: `https://t.me/Christmas20252_bot?start=${chatId}`, // Unique referral link
+            welcomeSent: false // Flag to track if welcome message has been sent
         };
+    }
+
+    // Only send welcome message if it hasn't been sent yet
+    if (!users[chatId].welcomeSent) {
         bot.sendMessage(chatId, welcomeMessage, {
             reply_markup: {
                 keyboard: [
@@ -51,6 +54,9 @@ bot.onText(/\/start(.*)/, (msg, match) => {
                 one_time_keyboard: true
             }
         });
+
+        // Mark the welcome message as sent
+        users[chatId].welcomeSent = true;
 
         // If there's a referrer, update their balance and referral count
         if (referrerId && users[referrerId]) {
@@ -67,7 +73,6 @@ bot.onText(/\/start(.*)/, (msg, match) => {
             inline_keyboard: [[
                 { text: 'DONE', callback_data: 'done' }
             ]]
-            
         }
     });
 });
@@ -91,18 +96,18 @@ TASK AND REFERRAL BALANCE CAN BE WITHDRAWN AT ANYTIME.
 ————————————————
 
 🎊 ACCUMULATED BALANCE INFO:
- 
+
  🤑 FROM INVITING: ${user.balance} ₦
  👛 FROM TASK: 0.0 ₦
  👨‍👩‍👧‍👦 TOTAL INVITATIONS: ${user.referrals}
- 
+
 ————————————————
 
 📎 Your referral link: 
 ${user.referralLink}
 
 USING FAKE REFERRAL TOOLS TO GET MORE BALANCE OR MULTIPLE ACCOUNTS WILL NOT GET PAID....
- 
+
 KEEP IT CLEAN 😉
         `;
 
@@ -122,7 +127,7 @@ KEEP IT CLEAN 😉
         const user = users[chatId];
         const refreshMessage = `
 🎊 ACCUMULATED BALANCE INFO:
- 
+
  🤑 FROM INVITING: ${user.balance} ₦
  👛 FROM TASK: 0.0 ₦
  👨‍👩‍👧‍👦 TOTAL INVITATIONS: ${user.referrals}
@@ -131,7 +136,6 @@ KEEP IT CLEAN 😉
         bot.sendMessage(chatId, refreshMessage);
     }
 });
-
 
 // Handle referral tracking
 bot.onText(/\/referral (.+)/, (msg, match) => {
@@ -155,10 +159,10 @@ withdraw(bot, users);
 
 async function startApp() {
     await Promise.all([
-      app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-      }),
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        }),
     ]);
-  }
-  
-  startApp().catch((error) => console.error("Error starting app:", error));
+}
+
+startApp().catch((error) => console.error("Error starting app:", error));
